@@ -1,3 +1,9 @@
+```html
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
 <style>
 
 *{
@@ -47,7 +53,7 @@ display:block;
 color:#e5e7eb;
 }
 
-input, select{
+input{
 width:100%;
 padding:10px;
 margin-top:4px;
@@ -98,24 +104,30 @@ text-align:right;
 }
 
 </style>
+</head>
+
+<body>
 
 <div class="container" id="loginScreen">
-  <h2>🔥 LEANDRO POGI LOGIN 🔥</h2>
-  <p class="subtitle">Enter your credentials</p>
-  
-  <label>Username</label>
-  <input type="text" id="username">
-  
-  <label>Password</label>
-  <input type="password" id="password">
-  
-  <button onclick="checkLogin()">Login</button>
+
+<h2>🔥 LEANDRO POGI LOGIN 🔥</h2>
+<p class="subtitle">Enter your credentials</p>
+
+<label>Username</label>
+<input id="username">
+
+<label>Password</label>
+<input type="password" id="password">
+
+<button onclick="checkLogin()">Login</button>
+
 </div>
 
-<div class="container" id="portalScreen" style="display:none;">
+
+<div class="container" id="portalScreen" style="display:none">
 
 <h2>🔥 LEANDRO POGI PORTAL 🔥</h2>
-<p class="subtitle">Welcome po!!</p>
+<p class="subtitle">Professional EXIF GeoTag Editor</p>
 
 <label>Upload Photo</label>
 <input type="file" id="upload">
@@ -146,159 +158,120 @@ text-align:right;
 <label>Image Description</label>
 <input id="desc">
 
-<label>EXIF Width (px)</label>
+<label>Width (px)</label>
 <input id="width">
 
-<label>EXIF Height (px)</label>
+<label>Height (px)</label>
 <input id="height">
 
-<label>Output Quality (KB Control)</label>
+<label>Output Quality</label>
+
 <div class="slider-container">
-  <input type="range" id="quality" min="0.1" max="1" step="0.05" value="0.9">
-  <span id="qualityValue">90%</span>
+<input type="range" id="quality" min="0.1" max="1" step="0.05" value="0.9">
+<span id="qualityValue">90%</span>
 </div>
 
-<button onclick="saveExif()">Download Edited Image</button>
+<button onclick="downloadImage()">Download Image</button>
 
 </div>
+
 
 <script src="https://cdn.jsdelivr.net/npm/piexifjs"></script>
 
 <script>
-const loginScreen = document.getElementById("loginScreen");
-const portalScreen = document.getElementById("portalScreen");
 
 function checkLogin(){
-  const username = document.getElementById("username").value;
-  const password = document.getElementById("password").value;
-  
-  if(username === "pogisileandro" && password === "sobrangpogitalaga"){
-    loginScreen.style.display = "none";
-    portalScreen.style.display = "block";
-  } else {
-    alert("Invalid username or password!");
-  }
+
+let u=document.getElementById("username").value
+let p=document.getElementById("password").value
+
+if(u==="pogisileandro" && p==="sobrangpogitalaga"){
+document.getElementById("loginScreen").style.display="none"
+document.getElementById("portalScreen").style.display="block"
+}
+else{
+alert("Wrong username or password")
 }
 
-let imageData = "";
-
-const qualityInput = document.getElementById("quality");
-const qualityValue = document.getElementById("qualityValue");
-
-qualityInput.addEventListener("input", ()=>{
-  qualityValue.textContent = Math.round(qualityInput.value*100) + "%";
-});
-
-document.getElementById("upload").addEventListener("change", function(e){
-  let file = e.target.files[0];
-  document.getElementById("filename").value = file.name.replace(/\.[^/.]+$/, "");
-  let reader = new FileReader();
-  reader.onload = function(event){
-    imageData = event.target.result;
-    document.getElementById("preview").src = imageData;
-
-    let imgTemp = new Image();
-    imgTemp.onload = function(){
-      document.getElementById("width").value = imgTemp.width;
-      document.getElementById("height").value = imgTemp.height;
-    }
-    imgTemp.src = imageData;
-
-    loadExif(imageData);
-  };
-  reader.readAsDataURL(file);
-});
-
-function dmsToDeg(dms){
-  if(!dms) return "";
-  return dms[0][0]/dms[0][1] + dms[1][0]/dms[1][1]/60 + dms[2][0]/dms[2][1]/3600;
 }
 
-function degToDmsRational(deg){
-  let absolute = Math.abs(deg);
-  let degrees = Math.floor(absolute);
-  let minutesNotTruncated = (absolute - degrees) * 60;
-  let minutes = Math.floor(minutesNotTruncated);
-  let seconds = Math.round((minutesNotTruncated - minutes) * 60 * 100);
-  return [[degrees,1],[minutes,1],[seconds,100]];
+let imageData=""
+
+const quality=document.getElementById("quality")
+const qualityValue=document.getElementById("qualityValue")
+
+quality.addEventListener("input",function(){
+qualityValue.innerHTML=Math.round(this.value*100)+"%"
+})
+
+
+document.getElementById("upload").addEventListener("change",function(e){
+
+let file=e.target.files[0]
+
+document.getElementById("filename").value=file.name.replace(/\.[^/.]+$/,"")
+
+let reader=new FileReader()
+
+reader.onload=function(event){
+
+imageData=event.target.result
+
+document.getElementById("preview").src=imageData
+
+let img=new Image()
+
+img.onload=function(){
+
+document.getElementById("width").value=img.width
+document.getElementById("height").value=img.height
+
 }
 
-function loadExif(data){
-  try{
-    let exif = piexif.load(data);
-    document.getElementById("make").value = exif["0th"][piexif.ImageIFD.Make] || "";
-    document.getElementById("model").value = exif["0th"][piexif.ImageIFD.Model] || "";
-    document.getElementById("software").value = exif["0th"][piexif.ImageIFD.Software] || "";
-    document.getElementById("desc").value = exif["0th"][piexif.ImageIFD.ImageDescription] || "";
-    document.getElementById("date").value = exif["Exif"][piexif.ExifIFD.DateTimeOriginal] || "";
-    
-    if(exif["0th"][piexif.ImageIFD.ImageWidth]) document.getElementById("width").value = exif["0th"][piexif.ImageIFD.ImageWidth];
-    if(exif["0th"][piexif.ImageIFD.ImageLength]) document.getElementById("height").value = exif["0th"][piexif.ImageIFD.ImageLength];
+img.src=imageData
 
-    if(exif["GPS"][piexif.GPSIFD.GPSLatitude]){
-      let lat = dmsToDeg(exif["GPS"][piexif.GPSIFD.GPSLatitude]);
-      let lng = dmsToDeg(exif["GPS"][piexif.GPSIFD.GPSLongitude]);
-      document.getElementById("lat").value = lat;
-      document.getElementById("lng").value = lng;
-    }
-  }catch(e){
-    console.log("No EXIF");
-  }
 }
 
-function saveExif(){
-  let make = document.getElementById("make").value;
-  let model = document.getElementById("model").value;
-  let software = document.getElementById("software").value;
-  let date = document.getElementById("date").value;
-  let lat = parseFloat(document.getElementById("lat").value);
-  let lng = parseFloat(document.getElementById("lng").value);
-  let desc = document.getElementById("desc").value;
-  let exifWidth = parseInt(document.getElementById("width").value);
-  let exifHeight = parseInt(document.getElementById("height").value);
-  let filename = document.getElementById("filename").value;
-  let quality = parseFloat(document.getElementById("quality").value);
+reader.readAsDataURL(file)
 
-  let zeroth = {};
-  let exif = {};
-  let gps = {};
+})
 
-  zeroth[piexif.ImageIFD.Make] = make;
-  zeroth[piexif.ImageIFD.Model] = model;
-  zeroth[piexif.ImageIFD.Software] = software;
-  zeroth[piexif.ImageIFD.ImageDescription] = desc;
 
-  if(!isNaN(exifWidth)) zeroth[piexif.ImageIFD.ImageWidth] = exifWidth;
-  if(!isNaN(exifHeight)) zeroth[piexif.ImageIFD.ImageLength] = exifHeight;
+function downloadImage(){
 
-  exif[piexif.ExifIFD.DateTimeOriginal] = date;
+let filename=document.getElementById("filename").value
+let qualityValue=parseFloat(document.getElementById("quality").value)
 
-  if(!isNaN(lat) && !isNaN(lng)){
-    gps[piexif.GPSIFD.GPSLatitudeRef] = lat >=0 ? "N":"S";
-    gps[piexif.GPSIFD.GPSLatitude] = degToDmsRational(lat);
-    gps[piexif.GPSIFD.GPSLongitudeRef] = lng >=0 ? "E":"W";
-    gps[piexif.GPSIFD.GPSLongitude] = degToDmsRational(lng);
-  }
+let img=new Image()
 
-  let exifObj = {"0th":zeroth,"Exif":exif,"GPS":gps};
-  let exifBytes = piexif.dump(exifObj);
+img.onload=function(){
 
-  let img = new Image();
-  img.onload = function(){
-    let canvas = document.createElement("canvas");
-    canvas.width = img.width;
-    canvas.height = img.height;
-    let ctx = canvas.getContext("2d");
-    ctx.drawImage(img, 0, 0);
+let canvas=document.createElement("canvas")
 
-    let compressedData = canvas.toDataURL("image/jpeg", quality);
-    let finalImage = piexif.insert(exifBytes, compressedData);
+canvas.width=img.width
+canvas.height=img.height
 
-    let link = document.createElement("a");
-    link.href = finalImage;
-    link.download = filename + ".jpg";
-    link.click();
-  };
-  img.src = imageData;
+let ctx=canvas.getContext("2d")
+
+ctx.drawImage(img,0,0)
+
+let compressed=canvas.toDataURL("image/jpeg",qualityValue)
+
+let link=document.createElement("a")
+
+link.href=compressed
+link.download=filename+".jpg"
+
+link.click()
+
 }
+
+img.src=imageData
+
+}
+
 </script>
+
+</body>
+</html>
+```
