@@ -1,92 +1,102 @@
 <style>
+
+*{
+box-sizing:border-box;
+}
+
 body{
-  font-family:Arial, sans-serif;
-  margin:0;
-  padding:0;
-  background:url("https://i.ibb.co/YTX5jq95/ow.jpg") no-repeat center center fixed;
-  background-size:cover;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  min-height:100vh;
+font-family:Arial, sans-serif;
+margin:0;
+padding:15px;
+background:url("https://images.unsplash.com/photo-1500530855697-b586d89ba3ee") no-repeat center center fixed;
+background-size:cover;
+display:flex;
+justify-content:center;
+align-items:flex-start;
+min-height:100vh;
 }
 
 .container{
-  background:rgba(0,0,0,0.85);
-  padding:25px;
-  border-radius:12px;
-  width:480px;
-  color:white;
-  box-shadow:0 0 25px rgba(0,0,0,0.6);
+background:rgba(0,0,0,0.85);
+padding:20px;
+border-radius:12px;
+width:100%;
+max-width:480px;
+color:white;
+box-shadow:0 0 25px rgba(0,0,0,0.6);
+margin:auto;
 }
 
 h2{
-  text-align:center;
-  margin-bottom:5px;
+text-align:center;
+font-size:22px;
+margin-bottom:5px;
 }
 
 .subtitle{
-  text-align:center;
-  font-size:13px;
-  color:#cbd5f5;
-  margin-bottom:15px;
+text-align:center;
+font-size:13px;
+color:#cbd5f5;
+margin-bottom:15px;
 }
 
 label{
-  font-size:13px;
-  margin-top:10px;
-  display:block;
-  color:#e5e7eb;
+font-size:13px;
+margin-top:10px;
+display:block;
+color:#e5e7eb;
 }
 
 input, select{
-  width:100%;
-  padding:8px;
-  margin-top:4px;
-  border-radius:6px;
-  border:none;
-  background:#1f2937;
-  color:white;
+width:100%;
+padding:10px;
+margin-top:4px;
+border-radius:6px;
+border:none;
+background:#1f2937;
+color:white;
+font-size:14px;
 }
 
-input:focus, select:focus{
-  outline:none;
-  background:#374151;
+input:focus{
+outline:none;
+background:#374151;
 }
 
 button{
-  width:100%;
-  padding:10px;
-  margin-top:18px;
-  border:none;
-  border-radius:8px;
-  background:#3b82f6;
-  color:white;
-  font-size:15px;
-  cursor:pointer;
+width:100%;
+padding:12px;
+margin-top:18px;
+border:none;
+border-radius:8px;
+background:#3b82f6;
+color:white;
+font-size:16px;
+cursor:pointer;
 }
 
 button:hover{
-  background:#2563eb;
+background:#2563eb;
 }
 
 img{
-  width:100%;
-  margin-top:10px;
-  border-radius:8px;
+width:100%;
+margin-top:10px;
+border-radius:8px;
 }
 
 .slider-container{
-  display:flex;
-  align-items:center;
-  gap:10px;
-  margin-top:8px;
+display:flex;
+align-items:center;
+gap:10px;
+margin-top:8px;
 }
 
 .slider-container span{
-  width:40px;
-  text-align:right;
+width:50px;
+text-align:right;
 }
+
 </style>
 
 <div class="container" id="loginScreen">
