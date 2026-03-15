@@ -120,7 +120,7 @@ text-align:right;
 <div class="container" id="portalScreen" style="display:none">
 
 <h2>🔥 LEANDRO POGI PORTAL 🔥</h2>
-<p class="subtitle">Professional EXIF GeoTag Editor</p>
+<p class="subtitle">Welcome po!!!</p>
 
 <label>Upload Photo</label>
 <input type="file" id="upload">
@@ -178,7 +178,7 @@ function checkLogin(){
 let u=document.getElementById("username").value
 let p=document.getElementById("password").value
 
-if(u==="pogisileandro" && p==="sobrangpogitalaga"){
+if(u==="Ostrom" && p==="akosileandro"){
 document.getElementById("loginScreen").style.display="none"
 document.getElementById("portalScreen").style.display="block"
 }
