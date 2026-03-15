@@ -162,7 +162,7 @@ function checkLogin(){
   const username = document.getElementById("username").value;
   const password = document.getElementById("password").value;
   
-  if(username === "pogisileandro" && password === "sobrangpogitalaga"){
+  if(username === "Ostrom" && password === "akosileandro"){
     loginScreen.style.display = "none";
     portalScreen.style.display = "block";
   } else {
