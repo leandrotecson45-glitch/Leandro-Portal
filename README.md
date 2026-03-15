@@ -1,126 +1,111 @@
 <style>
-*{
-box-sizing:border-box;
-}
-
 body{
-font-family:Arial, sans-serif;
-margin:0;
-padding:15px;
-background:url("https://images.unsplash.com/photo-1500530855697-b586d89ba3ee") no-repeat center center fixed;
-background-size:cover;
-display:flex;
-justify-content:center;
-align-items:flex-start;
-min-height:100vh;
+  font-family:Arial, sans-serif;
+  margin:0;
+  padding:0;
+  background:url("https://i.ibb.co/YTX5jq95/ow.jpg") no-repeat center center fixed;
+  background-size:cover;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  min-height:100vh;
 }
 
 .container{
-background:rgba(0,0,0,0.85);
-padding:20px;
-border-radius:12px;
-width:100%;
-max-width:480px;
-color:white;
-box-shadow:0 0 25px rgba(0,0,0,0.6);
-margin:auto;
+  background:rgba(0,0,0,0.85);
+  padding:25px;
+  border-radius:12px;
+  width:480px;
+  color:white;
+  box-shadow:0 0 25px rgba(0,0,0,0.6);
 }
 
 h2{
-text-align:center;
-font-size:22px;
-margin-bottom:5px;
+  text-align:center;
+  margin-bottom:5px;
 }
 
 .subtitle{
-text-align:center;
-font-size:13px;
-color:#cbd5f5;
-margin-bottom:15px;
+  text-align:center;
+  font-size:13px;
+  color:#cbd5f5;
+  margin-bottom:15px;
 }
 
 label{
-font-size:13px;
-margin-top:10px;
-display:block;
-color:#e5e7eb;
+  font-size:13px;
+  margin-top:10px;
+  display:block;
+  color:#e5e7eb;
 }
 
-input{
-width:100%;
-padding:10px;
-margin-top:4px;
-border-radius:6px;
-border:none;
-background:#1f2937;
-color:white;
-font-size:14px;
+input, select{
+  width:100%;
+  padding:8px;
+  margin-top:4px;
+  border-radius:6px;
+  border:none;
+  background:#1f2937;
+  color:white;
 }
 
-input:focus{
-outline:none;
-background:#374151;
+input:focus, select:focus{
+  outline:none;
+  background:#374151;
 }
 
 button{
-width:100%;
-padding:12px;
-margin-top:18px;
-border:none;
-border-radius:8px;
-background:#3b82f6;
-color:white;
-font-size:16px;
-cursor:pointer;
+  width:100%;
+  padding:10px;
+  margin-top:18px;
+  border:none;
+  border-radius:8px;
+  background:#3b82f6;
+  color:white;
+  font-size:15px;
+  cursor:pointer;
 }
 
 button:hover{
-background:#2563eb;
+  background:#2563eb;
 }
 
 img{
-width:100%;
-margin-top:10px;
-border-radius:8px;
+  width:100%;
+  margin-top:10px;
+  border-radius:8px;
 }
 
 .slider-container{
-display:flex;
-align-items:center;
-gap:10px;
-margin-top:8px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin-top:8px;
 }
 
 .slider-container span{
-width:50px;
-text-align:right;
+  width:40px;
+  text-align:right;
 }
-
 </style>
-</head>
-
-<body>
 
 <div class="container" id="loginScreen">
-
-<h2>🔥 LEANDRO POGI LOGIN 🔥</h2>
-<p class="subtitle">Enter your credentials</p>
-
-<label>Username</label>
-<input id="username">
-
-<label>Password</label>
-<input type="password" id="password">
-
-<button onclick="checkLogin()">Login</button>
-
+  <h2>🔥 LEANDRO POGI LOGIN 🔥</h2>
+  <p class="subtitle">Enter your credentials</p>
+  
+  <label>Username</label>
+  <input type="text" id="username">
+  
+  <label>Password</label>
+  <input type="password" id="password">
+  
+  <button onclick="checkLogin()">Login</button>
 </div>
 
-
-<div class="container" id="portalScreen" style="display:none">
+<div class="container" id="portalScreen" style="display:none;">
 
 <h2>🔥 LEANDRO POGI PORTAL 🔥</h2>
-<p class="subtitle">Welcome po!!!</p>
+<p class="subtitle">Welcome po!!</p>
 
 <label>Upload Photo</label>
 <input type="file" id="upload">
@@ -151,121 +136,159 @@ text-align:right;
 <label>Image Description</label>
 <input id="desc">
 
-<label>Width (px)</label>
+<label>EXIF Width (px)</label>
 <input id="width">
 
-<label>Height (px)</label>
+<label>EXIF Height (px)</label>
 <input id="height">
 
-<label>Output Quality</label>
-
+<label>Output Quality (KB Control)</label>
 <div class="slider-container">
-<input type="range" id="quality" min="0.1" max="1" step="0.05" value="0.9">
-<span id="qualityValue">90%</span>
+  <input type="range" id="quality" min="0.1" max="1" step="0.05" value="0.9">
+  <span id="qualityValue">90%</span>
 </div>
 
-<button onclick="downloadImage()">Download Image</button>
+<button onclick="saveExif()">Download Edited Image</button>
 
 </div>
-
 
 <script src="https://cdn.jsdelivr.net/npm/piexifjs"></script>
 
 <script>
+const loginScreen = document.getElementById("loginScreen");
+const portalScreen = document.getElementById("portalScreen");
 
 function checkLogin(){
-
-let u=document.getElementById("username").value
-let p=document.getElementById("password").value
-
-if(u==="Ostrom" && p==="akosileandro"){
-document.getElementById("loginScreen").style.display="none"
-document.getElementById("portalScreen").style.display="block"
-}
-else{
-alert("Wrong username or password")
-}
-
+  const username = document.getElementById("username").value;
+  const password = document.getElementById("password").value;
+  
+  if(username === "pogisileandro" && password === "sobrangpogitalaga"){
+    loginScreen.style.display = "none";
+    portalScreen.style.display = "block";
+  } else {
+    alert("Invalid username or password!");
+  }
 }
 
-let imageData=""
+let imageData = "";
 
-const quality=document.getElementById("quality")
-const qualityValue=document.getElementById("qualityValue")
+const qualityInput = document.getElementById("quality");
+const qualityValue = document.getElementById("qualityValue");
 
-quality.addEventListener("input",function(){
-qualityValue.innerHTML=Math.round(this.value*100)+"%"
-})
+qualityInput.addEventListener("input", ()=>{
+  qualityValue.textContent = Math.round(qualityInput.value*100) + "%";
+});
 
+document.getElementById("upload").addEventListener("change", function(e){
+  let file = e.target.files[0];
+  document.getElementById("filename").value = file.name.replace(/\.[^/.]+$/, "");
+  let reader = new FileReader();
+  reader.onload = function(event){
+    imageData = event.target.result;
+    document.getElementById("preview").src = imageData;
 
-document.getElementById("upload").addEventListener("change",function(e){
+    let imgTemp = new Image();
+    imgTemp.onload = function(){
+      document.getElementById("width").value = imgTemp.width;
+      document.getElementById("height").value = imgTemp.height;
+    }
+    imgTemp.src = imageData;
 
-let file=e.target.files[0]
+    loadExif(imageData);
+  };
+  reader.readAsDataURL(file);
+});
 
-document.getElementById("filename").value=file.name.replace(/\.[^/.]+$/,"")
-
-let reader=new FileReader()
-
-reader.onload=function(event){
-
-imageData=event.target.result
-
-document.getElementById("preview").src=imageData
-
-let img=new Image()
-
-img.onload=function(){
-
-document.getElementById("width").value=img.width
-document.getElementById("height").value=img.height
-
+function dmsToDeg(dms){
+  if(!dms) return "";
+  return dms[0][0]/dms[0][1] + dms[1][0]/dms[1][1]/60 + dms[2][0]/dms[2][1]/3600;
 }
 
-img.src=imageData
-
+function degToDmsRational(deg){
+  let absolute = Math.abs(deg);
+  let degrees = Math.floor(absolute);
+  let minutesNotTruncated = (absolute - degrees) * 60;
+  let minutes = Math.floor(minutesNotTruncated);
+  let seconds = Math.round((minutesNotTruncated - minutes) * 60 * 100);
+  return [[degrees,1],[minutes,1],[seconds,100]];
 }
 
-reader.readAsDataURL(file)
+function loadExif(data){
+  try{
+    let exif = piexif.load(data);
+    document.getElementById("make").value = exif["0th"][piexif.ImageIFD.Make] || "";
+    document.getElementById("model").value = exif["0th"][piexif.ImageIFD.Model] || "";
+    document.getElementById("software").value = exif["0th"][piexif.ImageIFD.Software] || "";
+    document.getElementById("desc").value = exif["0th"][piexif.ImageIFD.ImageDescription] || "";
+    document.getElementById("date").value = exif["Exif"][piexif.ExifIFD.DateTimeOriginal] || "";
+    
+    if(exif["0th"][piexif.ImageIFD.ImageWidth]) document.getElementById("width").value = exif["0th"][piexif.ImageIFD.ImageWidth];
+    if(exif["0th"][piexif.ImageIFD.ImageLength]) document.getElementById("height").value = exif["0th"][piexif.ImageIFD.ImageLength];
 
-})
-
-
-function downloadImage(){
-
-let filename=document.getElementById("filename").value
-let qualityValue=parseFloat(document.getElementById("quality").value)
-
-let img=new Image()
-
-img.onload=function(){
-
-let canvas=document.createElement("canvas")
-
-canvas.width=img.width
-canvas.height=img.height
-
-let ctx=canvas.getContext("2d")
-
-ctx.drawImage(img,0,0)
-
-let compressed=canvas.toDataURL("image/jpeg",qualityValue)
-
-let link=document.createElement("a")
-
-link.href=compressed
-link.download=filename+".jpg"
-
-link.click()
-
+    if(exif["GPS"][piexif.GPSIFD.GPSLatitude]){
+      let lat = dmsToDeg(exif["GPS"][piexif.GPSIFD.GPSLatitude]);
+      let lng = dmsToDeg(exif["GPS"][piexif.GPSIFD.GPSLongitude]);
+      document.getElementById("lat").value = lat;
+      document.getElementById("lng").value = lng;
+    }
+  }catch(e){
+    console.log("No EXIF");
+  }
 }
 
-img.src=imageData
+function saveExif(){
+  let make = document.getElementById("make").value;
+  let model = document.getElementById("model").value;
+  let software = document.getElementById("software").value;
+  let date = document.getElementById("date").value;
+  let lat = parseFloat(document.getElementById("lat").value);
+  let lng = parseFloat(document.getElementById("lng").value);
+  let desc = document.getElementById("desc").value;
+  let exifWidth = parseInt(document.getElementById("width").value);
+  let exifHeight = parseInt(document.getElementById("height").value);
+  let filename = document.getElementById("filename").value;
+  let quality = parseFloat(document.getElementById("quality").value);
 
+  let zeroth = {};
+  let exif = {};
+  let gps = {};
+
+  zeroth[piexif.ImageIFD.Make] = make;
+  zeroth[piexif.ImageIFD.Model] = model;
+  zeroth[piexif.ImageIFD.Software] = software;
+  zeroth[piexif.ImageIFD.ImageDescription] = desc;
+
+  if(!isNaN(exifWidth)) zeroth[piexif.ImageIFD.ImageWidth] = exifWidth;
+  if(!isNaN(exifHeight)) zeroth[piexif.ImageIFD.ImageLength] = exifHeight;
+
+  exif[piexif.ExifIFD.DateTimeOriginal] = date;
+
+  if(!isNaN(lat) && !isNaN(lng)){
+    gps[piexif.GPSIFD.GPSLatitudeRef] = lat >=0 ? "N":"S";
+    gps[piexif.GPSIFD.GPSLatitude] = degToDmsRational(lat);
+    gps[piexif.GPSIFD.GPSLongitudeRef] = lng >=0 ? "E":"W";
+    gps[piexif.GPSIFD.GPSLongitude] = degToDmsRational(lng);
+  }
+
+  let exifObj = {"0th":zeroth,"Exif":exif,"GPS":gps};
+  let exifBytes = piexif.dump(exifObj);
+
+  let img = new Image();
+  img.onload = function(){
+    let canvas = document.createElement("canvas");
+    canvas.width = img.width;
+    canvas.height = img.height;
+    let ctx = canvas.getContext("2d");
+    ctx.drawImage(img, 0, 0);
+
+    let compressedData = canvas.toDataURL("image/jpeg", quality);
+    let finalImage = piexif.insert(exifBytes, compressedData);
+
+    let link = document.createElement("a");
+    link.href = finalImage;
+    link.download = filename + ".jpg";
+    link.click();
+  };
+  img.src = imageData;
 }
-
 </script>
-
-</body>
-</html>
-```
-](https://leandrotecson45-glitch.github.io/Leandro-Portal/)
