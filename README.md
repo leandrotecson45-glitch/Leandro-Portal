@@ -87,6 +87,56 @@ img{
   width:40px;
   text-align:right;
 }
+<!-- Responsive Scrollable Section Start -->
+<div class="scrollable-section">
+  <p>
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+    Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+    Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+    Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+  </p>
+  <p>
+    Add more content here as needed. This section will scroll if the content overflows the height.
+  </p>
+</div>
+<!-- Responsive Scrollable Section End -->
+
+<style>
+.scrollable-section {
+  max-height: 40vh;       /* 40% ng view height, adjustable */
+  overflow-y: auto;        /* vertical scroll */
+  padding: 12px;
+  border: 1px solid #ccc;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-sizing: border-box;
+  width: 90%;              /* responsive width */
+  margin: 10px auto;       /* center sa page */
+  font-size: 1rem;         /* adjustable font size */
+}
+
+/* Scrollbar styling for better look (optional) */
+.scrollable-section::-webkit-scrollbar {
+  width: 6px;
+}
+
+.scrollable-section::-webkit-scrollbar-thumb {
+  background-color: #888;
+  border-radius: 3px;
+}
+
+.scrollable-section::-webkit-scrollbar-thumb:hover {
+  background-color: #555;
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+  .scrollable-section {
+    width: 95%;           /* mas lapad sa maliit na screen */
+    max-height: 50vh;     /* mas mataas para mobile */
+    font-size: 0.95rem;   /* konting bawas sa font size */
+  }
+}
 </style>
 
 <div class="container" id="loginScreen">
